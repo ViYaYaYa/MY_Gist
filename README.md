@@ -1,2 +1,2 @@
 # MY_Gist
-看issues咯
+看[issues](issues)咯
