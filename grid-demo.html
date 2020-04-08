@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>grid实用例子？</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .box {
+      border: 5px solid #333;
+      display: grid;
+    }
+
+    .item {
+      border: 5px solid #666;
+    }
+
+    .item:empty:before {
+      content: "占位文字"
+    }
+
+    #box1 {
+      display: inline-grid;
+      vertical-align: middle;
+    }
+
+    #box2 {
+      grid: auto / auto 1fr auto;
+    }
+
+    #box3 {
+      grid: auto auto auto / 50%;
+      grid-auto-flow: column;
+    }
+
+    #box4 {
+      grid: "lefter none none righter" "lefter none none righter";
+    }
+
+    #box5 {
+      grid-template: 30px 30px auto auto 30px 30px;
+      grid-auto-columns: 50px 60px;
+      grid-auto-rows: 70px 80px;
+    }
+
+    #box6 {
+      grid: 50px 50px / 100px 200px;
+      grid-auto-rows: 30px 80px 130px;
+    }
+
+    #box7,
+    #box8 {
+      grid: 50px 50px / 1fr 1fr;
+    }
+
+    #box8 {
+      grid-auto-flow: dense;
+    }
+
+    #box9 {
+      grid: auto-flow 50px / 1fr 2fr 3fr;
+    }
+
+    #box10 {
+      grid: "corner r1c2 r1c3" "corner r2c2 r2c3" "r3c1 r3c2 r3c3" / auto auto auto
+    }
+
+    #item1 {
+      grid-area: lefter;
+      background: #999;
+    }
+
+    #item2 {
+      grid-area: righter;
+      background: #999;
+    }
+
+    #item3,
+    #item4 {
+      grid-column: 2;
+    }
+
+    #item5 {
+      grid-row-end: span 2;
+    }
+
+    #item6 {
+      grid-column-end: span 2;
+    }
+
+    #item7 {
+      grid-area: corner;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Chrome 57以下不支持grid，蟹蟹！</h2>
+  <h3>一些注意点？？</h3>
+  <ul>
+    <li>grid无法设置grid-gap，grid会覆盖之前定义的grid-template，grid-auto-flow，grid-auto-columns / rows</li>
+    <li>所有的格子都是预先template化的，如果溢出了，就会生成一种叫做隐式网格的东西</li>
+    <li>grid只能设置column或者row任一方向auto-flow，不能同时设置</li>
+  </ul>
+  <hr>
+  <h3>行内grid</h3>
+  <div>
+    <span id="box1" class="box">
+      <span class="item"></span>
+      <span class="item"></span>
+      <span class="item"></span>
+    </span>
+    <span>你看我可以跟它垂直居中</span>
+  </div>
+  <hr>
+  <h3>fr</h3>
+  <div id="box2" class="box">
+    <div class="item"></div>
+    <div class="item">1fr</div>
+    <div class="item"></div>
+  </div>
+  <hr>
+  <h3>grid-auto-flow: column</h3>
+  <div id="box3" class="box">
+    <div class="item">第1个</div>
+    <div class="item">第2个</div>
+    <div class="item">第3个</div>
+    <div class="item">第4个咦怎么过来了</div>
+  </div>
+  <hr>
+  <h3>模板</h3>
+  <div id="box4" class="box">
+    <div id="item1" class="item">我是lefter</div>
+    <div id="item2" class="item">我是righter</div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+  <hr>
+  <h3>grid-auto-column / grid-auto-row</h3>
+  <div id="box5" class="box">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+  <hr>
+  <h3>隐式网格</h3>
+  <div id="box6" class="box">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item">本来</div>
+    <div class="item">只定义了</div>
+    <div class="item">四个格子</div>
+    <div class="item">但是</div>
+    <div class="item">控制不知自己</div>
+    <div class="item">加多了几个</div>
+    <div class="item">而且高度</div>
+    <div class="item">有规律</div>
+    <div class="item">80px</div>
+    <div class="item">80px</div>
+    <div class="item">130px</div>
+    <div class="item">130px</div>
+  </div>
+  <hr>
+  <h3>没有dense</h3>
+  <div id="box7" class="box">
+    <div id="item3" class="item">item1</div>
+    <div class="item">item2</div>
+    <div class="item">item3</div>
+  </div>
+  <hr>
+  <h3>有dense</h3>
+  <div id="box8" class="box">
+    <div id="item4" class="item">item1</div>
+    <div class="item">item2</div>
+    <div class="item">item3</div>
+  </div>
+  <hr>
+  <h3>span</h3>
+  <div id="box9" class="box">
+    <div class="item">1</div>
+    <div id="item5" class="item">我是第2个，我不理，我就要占2行咯</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+    <div id="item6" class="item">我是第5个，我要占2列！</div>
+  </div>
+  <hr>
+  <h3>grid area详细用法</h3>
+  <div id="box10" class="box">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+    <div class="item">5</div>
+    <div class="item">6</div>
+    <div id="item7" class="item">7</div>
+    <div class="item">8</div>
+    <div class="item">9</div>
+  </div>
+</body>
+
+</html>
